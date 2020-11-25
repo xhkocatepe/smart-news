@@ -23,12 +23,23 @@ Smart-News, The REST API application is completely written in Node.js
 
 ```
 git clone https://github.com/xhkocatepe/smart-news.git
+nvm use 12 
 npm install
 npm run start
 
 open swager document file url
 http://localhost:1338/swaggers/api-docs
 
+.env file
+
+MONGO_DB
+CRON_EXPR_FOR_LATEST_UPDATE_NEWS
+YAHOO_RSS_URL
+NY_TIMES_RSS_URL
+JWT_SECRET
+
+For .env file detail please contact to me.
+bayramhakankocatepe@gmail.com
 ```
 
 ![](./img/swagger.png)

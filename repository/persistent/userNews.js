@@ -1,16 +1,12 @@
 const userNewsModel = require('../../models/userNews');
 
 class UserNews {
-    findUserNewsByUsername(
+    findUserNewsIdsByUsername(
         { username, isRemovedReadLater = false, limit, skip }
     ) {
         const query = { username, isRemovedReadLater };
-
-        return userNewsModel.find(query)
-            .populate({
-                path: 'News', // TODO populate check
-                select: '_id link title pubDate source',
-            })
+        const project = { _id: 0, newsId: 1 };
+        return userNewsModel.find(query, project)
             .sort({ _id: -1 }) // sorted latest
             .skip(skip) // Always apply 'skip' before 'limit'
             .limit(limit) // Page size

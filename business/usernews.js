@@ -1,4 +1,5 @@
 const UserNewsRepository = require('../repository/persistent/userNews');
+const NewsRepository = require('../repository/persistent/news');
 
 module.exports.getPaginatedReadLaterNews = async ({ page, limit, username }) => {
     const results = { next: null, previous: null, news: [] };
@@ -7,9 +8,12 @@ module.exports.getPaginatedReadLaterNews = async ({ page, limit, username }) => 
     const endIndex = page * limit;
 
     const count = await UserNewsRepository.getCountUserNewsByUsername({ username, isRemovedReadLater: false });
-    const news = await UserNewsRepository.findUserNewsByUsername(
+    const newsIdsArrayObject = await UserNewsRepository.findUserNewsIdsByUsername(
         { username, isRemovedReadLater: false, limit, skip: startIndex }
     );
+    const newsIds = newsIdsArrayObject.map((item) => item.newsId);
+
+    const userNews = await NewsRepository.findNewsByNewsId({ newsIds });
 
     if (endIndex < count) {
         results.next = {
@@ -24,7 +28,7 @@ module.exports.getPaginatedReadLaterNews = async ({ page, limit, username }) => 
         };
     }
 
-    results.news = news;
+    results.news = userNews;
 
     return results;
 };
