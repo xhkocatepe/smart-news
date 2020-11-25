@@ -1,0 +1,2 @@
+# smart-news
+Smart News
