@@ -1,0 +1,418 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "News",
+    "description": "<img src=\"https://i.ibb.co/bLkL3wG/abi-ko.png\" width=\"40%\" height=\"40%\"></br>\n  This API lets users reach news through multiple RSS Feeds! </br> Widen Your World!",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "url": "https://www.linkedin.com/in/bayram-hakan-kocatepe-9a609a68"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:1338"
+    }
+  ],
+  "paths": {
+    "/users/registration": {
+      "post": {
+        "summary": "Sign up",
+        "operationId": "post-users-sign-up",
+        "tags": [
+          "sign operation"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              },
+              "examples": {
+                "Username": {
+                  "value": {
+                    "username": "hakankocatepe",
+                    "password": "engineer"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Sign Up with username and password"
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully Registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponseWithoutData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "example-1": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Sign in",
+        "operationId": "post-users-signin",
+        "tags": [
+          "sign operation"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "wrong password": {
+                    "value": {
+                      "returncode": 1,
+                      "returnMessage": "wrong password!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              },
+              "examples": {
+                "Success username": {
+                  "value": {
+                    "username": "hakankocatepe",
+                    "password": "engineer"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/users/read-later": {
+      "get": {
+        "tags": [
+          "read later"
+        ],
+        "summary": "List Read-Later News of Users.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pageParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Test",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/read-later/{newsId}": {
+      "post": {
+        "summary": "Save Read-Later News of Users.",
+        "operationId": "post-users-read-later",
+        "tags": [
+          "read later"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "newsId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "wrong password": {
+                    "value": {
+                      "returncode": 1,
+                      "returnMessage": "wrong password!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "delete": {
+        "summary": "Remove Read-Later News of Users.",
+        "operationId": "get",
+        "tags": [
+          "read later"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "newsId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponseWithoutData"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get a News List as Public.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "source",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter the news by the RSS source"
+          },
+          {
+            "$ref": "#/components/parameters/pageParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "News",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulResponseWithoutData"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "pageParam": {
+        "in": "query",
+        "name": "page",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "description": "The number of items to skip before starting to collect the result set."
+      },
+      "limitParam": {
+        "in": "query",
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20
+        },
+        "description": "The numbers of items to return."
+      }
+    },
+    "schemas": {
+      "Error": {
+        "x-examples": {},
+        "type": "object",
+        "properties": {
+          "returnCode": {
+            "type": "number",
+            "example": 1
+          },
+          "returnMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessfulResponseWithoutData": {
+        "type": "object",
+        "title": "SuccessfulResponse",
+        "properties": {
+          "returnCode": {
+            "type": "number",
+            "default": 0,
+            "example": 0
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "returnCode"
+        ]
+      },
+      "TokenResponse": {
+        "x-examples": {},
+        "type": "object",
+        "properties": {
+          "returnCode": {
+            "type": "number",
+            "example": 0
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzZW5nZXJJZCI6IjEyMzQ1Njc4OTAiLCJpYXQiOjE1MTYyMzkwMjJ9.S2te0B0okYaU18bmZDjJ7zOvAhx7BDQKPSqfJX4qmjo"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
