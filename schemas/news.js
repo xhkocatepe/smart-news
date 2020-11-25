@@ -17,7 +17,7 @@ const NewsSchema = new Schema(
         },
         source: {
             type: String,
-            enum: [Object.values(RSS_SOURCE)],
+            enum: Object.values(RSS_SOURCE),
             required: true,
         },
     },

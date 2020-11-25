@@ -20,6 +20,14 @@ class News {
             .lean();
     }
 
+    findNewsByNewsId({ newsIds }) {
+        const query = { _id: newsIds };
+
+        return newsModel.find(query)
+            .sort({ pubDate: -1 }) // sorted latest
+            .lean();
+    }
+
     async findNewsIdByLink({ link }) {
         const news = await newsModel.findOne({ link }, { _id: 1 }).lean();
         const newsId = news ? news._id.toString() : '';

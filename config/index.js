@@ -2,7 +2,7 @@ const { RSS_SOURCE } = require('../utils/constants');
 
 module.exports = {
     MONGO: {
-        DB: process.env.DB,
+        DB: process.env.MONGO_DB,
     },
     RSS_SOURCES: [{
         NAME: RSS_SOURCE.YAHOO,
