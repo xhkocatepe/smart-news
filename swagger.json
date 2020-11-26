@@ -301,7 +301,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Get a News List as Public.",
+        "summary": "Get a News List as Public or User Authenticated",
         "parameters": [
           {
             "in": "query",

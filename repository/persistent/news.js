@@ -3,14 +3,14 @@ const _ = require('lodash');
 const newsModel = require('../../models/news');
 
 class News {
-    findFilteredNews({ source, newsId, limit, skip }) {
+    findNewsBySourceAndPubDate({ source, pubDate, limit, skip }) {
         const query = {};
 
         if (source) {
             query.source = source;
         }
-        if (newsId) {
-            query._id = { $gte: newsId };
+        if (pubDate) {
+            query.pubDate = { $gt: pubDate };
         }
 
         return newsModel.find(query)
@@ -35,13 +35,13 @@ class News {
         return newsId;
     }
 
-    getCountFilteredNews({ source, newsId }) {
+    getCountNewsBySourceAndPubDate({ source, pubDate }) {
         const query = {};
         if (source) {
             query.source = source;
         }
-        if (newsId) {
-            query._id = { $gte: newsId };
+        if (pubDate) {
+            query.pubDate = { $gt: pubDate };
         }
 
         return newsModel.countDocuments(query);

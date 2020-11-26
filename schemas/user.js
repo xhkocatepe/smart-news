@@ -20,7 +20,7 @@ const UserSchema = new Schema(
         token: {
             type: String,
         },
-        lastReadNewsId: {
+        lastReadPubDate: {
             type: String,
         },
 

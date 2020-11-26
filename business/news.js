@@ -123,18 +123,20 @@ module.exports.getNewsFromCache = async ({ source, startIndex, endIndex, limit }
 };
 
 module.exports.getNewsFromPersistent = async ({ source, startIndex, limit, username }) => {
-    let newsId;
+    let lastReadPubDate;
     if (username) {
         const user = await userRepository.findUserByUsername({ username });
-        newsId = user.lastReadNewsId;
+        ({ lastReadPubDate } = user);
     }
-    const paginatedNews = await newsRepository.findFilteredNews({ source, newsId, limit, skip: startIndex });
+    const paginatedNews = await newsRepository.findNewsBySourceAndPubDate(
+        { source, pubDate: lastReadPubDate, limit, skip: startIndex }
+    );
 
-    const count = await newsRepository.getCountFilteredNews({ source, newsId });
+    const count = await newsRepository.getCountNewsBySourceAndPubDate({ source, pubDate: lastReadPubDate });
 
     // Update last read newsId on user
     if (username && paginatedNews.length) {
-        await userRepository.updateUserLastReadNewsId({ username, lastReadNewsId: paginatedNews[0]._id });
+        await userRepository.updateUserLastReadNewsId({ username, lastReadPubDate: paginatedNews[0].pubDate });
     }
 
     return { paginatedNews, count };
