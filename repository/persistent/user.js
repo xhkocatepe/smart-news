@@ -14,8 +14,8 @@ class User {
         return userModel.findOneAndUpdate({ username }, { token }).lean();
     }
 
-    updateUserLastReadNewsId({ username, lastReadNewsId }) {
-        return userModel.findOneAndUpdate({ username }, { lastReadNewsId }).lean();
+    updateUserLastReadNewsId({ username, lastReadPubDate }) {
+        return userModel.findOneAndUpdate({ username }, { lastReadPubDate }).lean();
     }
 }
 
